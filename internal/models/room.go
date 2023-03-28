@@ -9,6 +9,12 @@ import (
 type Room struct {
 	ID string `json:"id"`
 	Players []*Player `json:"players"`
+	DrawDeck []*Card `json:"drawDeck"`
+	DiscardDeck []*Card `json:"discardDeck"`
+	CurrentPlayer *Player `json:"currentPlayer"`
+	EventCardDrawDeck []*EventCard `json:"eventCardDrawDeck"`
+	EventCardOnDeck []*EventCard `json:"eventCardOnDeck"`
+	EventCardHistory []*EventCard `json:"eventCardHistory"`
 }
 
 type RoomRepository interface {

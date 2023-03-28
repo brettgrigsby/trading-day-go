@@ -14,6 +14,8 @@ type Player struct {
 	ID string `json:"id"`
 	Name string `json:"name"`
 	Room *Room `json:"room"`
+	Money int `json:"money"`
+	Hand []*Card `json:"hand"`
 
 	Socket *websocket.Conn
 }
