@@ -9,7 +9,10 @@ import (
 	"trading-day-go/internal/handlers"
 )
 
+var allowedOrigins = []string{"http://localhost:3000", "http://example.com"}
+
 func main() {
+	log.Println("Server started on port 8080")
 	http.HandleFunc("/ws", handleWebSocket)
 	err := http.ListenAndServe(":8080", nil)
 	if err != nil {
@@ -19,7 +22,18 @@ func main() {
 
 func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 	// Upgrade the HTTP connection to a WebSocket connection
-	upgrader := websocket.Upgrader{}
+	upgrader := websocket.Upgrader{
+		CheckOrigin: func(r *http.Request) bool {
+			// Check against allowed origins
+			origin := r.Header.Get("Origin")
+			for _, allowed := range allowedOrigins {
+				if allowed == origin {
+					return true
+				}
+			}
+			return false
+		},
+	}
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
 		log.Println(err)
